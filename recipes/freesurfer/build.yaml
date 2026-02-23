@@ -1,5 +1,5 @@
 name: freesurfer
-version: 8.1.0
+version: 8.0.0
 # https://surfer.nmr.mgh.harvard.edu/pub/dist/freesurfer/
 
 copyright:
@@ -108,14 +108,6 @@ build:
 
     - environment:
         LD_LIBRARY_PATH: ""
-
-    - template:
-        name: matlabmcr
-        install_path: /opt/MCR2014b
-        version: 2014b
-
-    - run:
-        - ln -s /opt/MCR2014b/v84/ /opt/freesurfer-{{ context.version }}/MCRv84
 
     - template:
         name: matlabmcr
