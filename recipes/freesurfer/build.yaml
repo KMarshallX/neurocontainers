@@ -84,6 +84,7 @@ build:
         - libxi6
         - libxkbcommon-x11-0
         - libxkbcommon0
+        - libqt5x11extras5
         - libxmu6
         - libxrender1
         - libxss1
@@ -173,6 +174,16 @@ build:
         - ln -s /usr/local/freesurfer/{{ context.version }}/* /usr/local/freesurfer/
         - ln -s /usr/local/freesurfer/{{ context.version }}/* /opt/freesurfer-{{ context.version }}
 
+    - run:
+        - mv /opt/freesurfer-{{ context.version }}/bin/freeview /opt/freesurfer-{{ context.version }}/bin/freeview_bin
+
+    - copy:
+        - freeview
+        - /opt/freesurfer-{{ context.version }}/bin/freeview
+
+    - run:
+        - chmod a+rwx /opt/freesurfer-{{ context.version }}/bin/freeview
+
     - workdir: /opt/freesurfer-{{ context.version }}/bin/
 
     - run:
@@ -230,6 +241,11 @@ files:
     contents: |-
       #!/usr/bin/env bash
       LD_LIBRARY_PATH=/opt/freesurfer-{{ context.version }}/MCRv97/runtime/glnxa64:/opt/freesurfer-{{ context.version }}/MCRv97/bin/glnxa64:/opt/freesurfer-{{ context.version }}/MCRv97/sys/os/glnxa64:/opt/freesurfer-{{ context.version }}/MCRv97/extern/bin/glnxa64 segmentNuclei_mcr97 "$@"
+
+  - name: freeview
+    contents: |-
+      #!/usr/bin/env bash
+      LD_LIBRARY_PATH=/usr/local/freesurfer/{{ context.version }}-1/lib/qt/lib:/usr/lib/x86_64-linux-gnu exec /opt/freesurfer-{{ context.version }}/bin/freeview_bin "$@"
 
   - name: license.txt
     contents: |-

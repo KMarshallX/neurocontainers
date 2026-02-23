@@ -23,7 +23,7 @@ tests:
               exit 1
           fi
           if printf '%s\n' "$LAST_OUTPUT" | grep -Eiq \
-              'symbol lookup error|undefined symbol|version `[^`]+` not found|Could not find version [0-9]+\.[0-9]+ of the MATLAB Runtime'; then
+              'symbol lookup error|undefined symbol|version `[^`]+` not found|Could not find version [0-9]+\.[0-9]+ of the MATLAB Runtime|no version information available'; then
               echo "Unexpected runtime/linker error in $name" >&2
               exit 1
           fi
@@ -52,6 +52,13 @@ tests:
 
       run_and_capture "fast_selxavg3b.glnxa64" fast_selxavg3b.glnxa64
       assert_no_runtime_link_errors "fast_selxavg3b.glnxa64"
+
+      run_and_capture "freeview -h (xvfb)" xvfb-run -a freeview -h
+      assert_no_runtime_link_errors "freeview -h (xvfb)"
+      if ! printf '%s\n' "$LAST_OUTPUT" | grep -Eiq 'Usage:[[:space:]]*freeview'; then
+          echo "freeview help output did not contain expected marker." >&2
+          exit 1
+      fi
 
       [ "$FSF_OUTPUT_FORMAT" = "nii.gz" ]
       if ! touch /scratch/test 2>/dev/null; then
