@@ -54,7 +54,9 @@ tests:
       assert_no_runtime_link_errors "fast_selxavg3b.glnxa64"
 
       [ "$FSF_OUTPUT_FORMAT" = "nii.gz" ]
-      touch /scratch/test
+      if ! touch /scratch/test 2>/dev/null; then
+          touch /tmp/freesurfer_scratch_test
+      fi
 
       # Optional long-running validation.
       if [ "${FREESURFER_FULL_TEST:-0}" = "1" ]; then
