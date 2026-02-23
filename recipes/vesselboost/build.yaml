@@ -7,7 +7,7 @@ architectures:
   - x86_64
 build:
   kind: neurodocker
-  base-image: pytorch/pytorch:2.4.1-cuda11.8-cudnn9-runtime
+  base-image: pytorch/pytorch:2.4.1-cuda12.4-cudnn9-runtime
   pkg-manager: apt
   directives:
     - deploy:
@@ -20,10 +20,11 @@ build:
     - run:
         - git clone https://github.com/KMarshallX/VesselBoost.git
         - cd VesselBoost
-        - chmod a+x angiboost.py boost.py prediction.py test_time_adaptation.py
+        - chmod a+x train.py angiboost.py boost.py prediction.py test_time_adaptation.py
     - workdir: /opt/VesselBoost/
     - run:
-        - pip install -r requirements.txt
+        - sed -i "s/scikit-learn==1.1.1/scikit-learn==1.2.2/" requirements.txt || true
+        - pip install --prefer-binary --no-cache-dir -r requirements.txt
     - workdir: /opt/VesselBoost/saved_models
     - run:
         - osf -p abk4p fetch osfstorage/pretrained_models/manual_0429
@@ -33,16 +34,6 @@ build:
         - osf -p abk4p fetch osfstorage/pretrained_models/omelette2_0429
     - run:
         - osf -p abk4p fetch osfstorage/pretrained_models/t2s_mod_ep1k2_0728
-    - run:
-        - osf -p abk4p fetch osfstorage/pretrained_models/BM_VB2_aug_all_ep2k_bat_10_0903
-    - run:
-        - osf -p abk4p fetch osfstorage/pretrained_models/VB2_aug_off_ep2k_bat10_0903
-    - run:
-        - osf -p abk4p fetch osfstorage/pretrained_models/VB2_aug_random_ep2k_bat10_0903
-    - run:
-        - osf -p abk4p fetch osfstorage/pretrained_models/VB2_aug_spatial_ep2k_bat10_0903
-    - run:
-        - osf -p abk4p fetch osfstorage/pretrained_models/VB2_aug_intensity_ep2k_bat10_0903
     - workdir: /opt/VesselBoost/
     - environment:
         PATH: $PATH:/opt/VesselBoost/
