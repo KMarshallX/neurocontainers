@@ -1,5 +1,5 @@
 name: ants
-version: 2.6.0 # https://github.com/ANTsX/ANTs/releases
+version: 2.6.5 # https://github.com/ANTsX/ANTs/releases
 
 copyright:
   - license: Apache-2.0
