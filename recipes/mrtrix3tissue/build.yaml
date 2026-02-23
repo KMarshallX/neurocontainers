@@ -1,5 +1,9 @@
 name: mrtrix3tissue
-version: "5.2.8"
+version: "5.2.9"
+
+copyright:
+  - license: MPL-2.0
+    url: https://github.com/3Tissue/MRtrix3Tissue/blob/master/LICENCE.txt
 
 architectures:
   - x86_64
@@ -12,17 +16,16 @@ build:
 
   directives:
     - template:
-        name: mrtrix3tissue
-        version: master
+        name: mrtrix3
+        version: "3Tissue_v{{ context.version }}"
         method: source
-
-    - template:
-        name: ants
-        version: "2.3.4"
+        repo: https://github.com/3Tissue/MRtrix3Tissue.git
+        install_path: /opt/mrtrix3tissue-{{ context.version }}
+        build_processes: "1"
 
 deploy:
   path:
-    - /opt/mrtrix3tissue-master/bin/
+    - /opt/mrtrix3tissue-{{ context.version }}/bin/
 
 readme: |
   ----------------------------------
@@ -31,11 +34,15 @@ readme: |
 
   Example:
   ```
-  mrview
+  mrconvert --version
   ```
 
-  More documentation can be found here: https://3tissue.github.io/doc/general.html
+  Build details follow the official install guidance:
+  https://3tissue.github.io/doc/install/
 
   To run container outside of this environment: ml mrtrix3tissue/{{ context.version }}
 
   ----------------------------------
+
+categories:
+  - diffusion imaging
