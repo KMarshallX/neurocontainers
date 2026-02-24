@@ -45,7 +45,6 @@ readme: |2-
 
     Example:
     ```
-    ml vesselboost/2.0.0
     prediction.py --image_path $path_to_images --output_path $path_to_output --pretrained $path_to_pretrained_model --prep_mode 4
     ```
 
