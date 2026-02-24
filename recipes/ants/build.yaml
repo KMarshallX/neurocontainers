@@ -14,6 +14,8 @@ build:
   pkg-manager: apt
 
   directives:
+    - environment:
+        LD_LIBRARY_PATH: ""
     - template:
         name: ants
         make_opts: -j8
@@ -21,6 +23,7 @@ build:
         version: "{{ context.version }}"
     - install:
         - bc
+        - r-base
 
 deploy:
   path:
